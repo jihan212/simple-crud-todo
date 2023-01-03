@@ -29,6 +29,7 @@ const Todo = () => {
 			completed: false,
 		};
 		setTodos([...todos, newTodo]);
+		setTodo('');
 	};
 
 	return (
