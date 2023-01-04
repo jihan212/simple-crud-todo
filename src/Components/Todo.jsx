@@ -3,20 +3,24 @@ import React, { useState } from 'react';
 const Todo = () => {
 	const defaultTodo = [
 		{
+			id: 1,
 			title: 'React class',
 			completed: true,
 		},
 		{
+			id: 2,
 			title: 'Redux class',
 			completed: false,
 		},
 		{
+			id: 3,
 			title: 'Code review',
 			completed: false,
 		},
 	];
 
 	const [todos, setTodos] = useState(defaultTodo);
+
 	const [todo, setTodo] = useState('');
 
 	const handleTodoAdd = (e) => {
@@ -32,6 +36,12 @@ const Todo = () => {
 		setTodo('');
 	};
 
+	const handleEnterKey = (event) => {
+		if (event.key === 'Enter') {
+			handleButton();
+		}
+	};
+
 	return (
 		<div className='grid h-screen place-items-center'>
 			<div className='bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg'>
@@ -43,7 +53,8 @@ const Todo = () => {
 							className='shadow border rounded w-full py-2 px-3 mr-4 text-gray-900'
 							placeholder='Add Todo'
 							value={todo}
-							onChange={(e) => handleTodoAdd(e)}
+							onChange={handleTodoAdd}
+							onKeyDown={handleEnterKey}
 						/>
 						<button
 							onClick={handleButton}
@@ -55,10 +66,11 @@ const Todo = () => {
 				</div>
 				{todos.map((todo, index) => {
 					return (
-						<div>
+						<div key={index}>
 							<div className='flex mb-4 items-center'>
 								<p className='w-1/5  text-gray-900'>
 									{index + 1}
+									{/* {todo.id} */}
 								</p>
 								<p className='w-1/2  text-gray-900'>
 									{todo.title}
