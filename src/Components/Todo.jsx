@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AiFillDelete } from 'react-icons/ai';
 
 const Todo = () => {
 	const defaultTodo = [
@@ -28,7 +29,11 @@ const Todo = () => {
 	};
 
 	const handleButton = () => {
+		if (todo.length === 0) {
+			return;
+		}
 		const newTodo = {
+			id: todos ? todos.length + 1 : 0,
 			title: todo,
 			completed: false,
 		};
@@ -40,6 +45,18 @@ const Todo = () => {
 		if (event.key === 'Enter') {
 			handleButton();
 		}
+	};
+
+	const handleSwitch = (id) => {
+		const currentTodoIndex = todos.findIndex((todo) => {
+			return todo.id === id;
+		});
+
+		let currentTodo = todos[currentTodoIndex];
+		currentTodo.completed = !currentTodo.completed;
+		todos[currentTodoIndex] = currentTodo;
+
+		setTodos([...todos]);
 	};
 
 	return (
@@ -69,13 +86,23 @@ const Todo = () => {
 						<div key={index}>
 							<div className='flex mb-4 items-center'>
 								<p className='w-1/5  text-gray-900'>
-									{index + 1}
-									{/* {todo.id} */}
+									{todo.id}
 								</p>
 								<p className='w-1/2  text-gray-900'>
 									{todo.title}
 								</p>
-								{todo.completed === true ? (
+								<div onClick={() => handleSwitch(todo.id)}>
+									{todo.completed === true ? (
+										<button className='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-green-900  hover:text-white border-green hover:bg-green-400'>
+											Done
+										</button>
+									) : (
+										<button className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'>
+											Not Done
+										</button>
+									)}
+								</div>
+								{/* {todo.completed === true ? (
 									<button className='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-green-900  hover:text-white border-green hover:bg-green-400'>
 										Done
 									</button>
@@ -83,7 +110,10 @@ const Todo = () => {
 									<button className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'>
 										Not Done
 									</button>
-								)}
+								)} */}
+								<button className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'>
+									<AiFillDelete />
+								</button>
 							</div>
 						</div>
 					);
