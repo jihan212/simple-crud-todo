@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AiFillDelete } from 'react-icons/ai';
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
+import { FaCheck } from 'react-icons/fa';
 
 const Todo = () => {
 	const defaultTodo = [
@@ -33,7 +34,7 @@ const Todo = () => {
 			return;
 		}
 		const newTodo = {
-			id: todos ? todos.length + 1 : 0,
+			id: Math.floor(Math.random() * 1000),
 			title: todo,
 			completed: false,
 		};
@@ -59,9 +60,16 @@ const Todo = () => {
 		setTodos([...todos]);
 	};
 
+	const handleDelete = (id) => {
+		const newTodos = todos.filter((todo) => todo.id !== id);
+		console.log(newTodos);
+
+		setTodos([...newTodos]);
+	};
+
 	return (
 		<div className='grid h-screen place-items-center'>
-			<div className='bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg'>
+			<div className='bg-white rounded shadow p-10 m-4 w-1/2'>
 				<div className='mb-4'>
 					<h1 className='text-gray-900'>Todo List</h1>
 					<div className='flex mt-4'>
@@ -77,7 +85,7 @@ const Todo = () => {
 							onClick={handleButton}
 							className='flex-no-shrink p-2 border-2 rounded text-teal border-teal text-gray-900 hover:text-white text-green-900 border-green hover:bg-green-400'
 						>
-							Add
+							Save
 						</button>
 					</div>
 				</div>
@@ -86,33 +94,34 @@ const Todo = () => {
 						<div key={index}>
 							<div className='flex mb-4 items-center'>
 								<p className='w-1/5  text-gray-900'>
-									{todo.id}
-								</p>
-								<p className='w-1/2  text-gray-900'>
-									{todo.title}
+									{index + 1}
 								</p>
 								<div onClick={() => handleSwitch(todo.id)}>
 									{todo.completed === true ? (
-										<button className='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-green-900  hover:text-white border-green hover:bg-green-400'>
-											Done
+										<button className='flex-no-shrink bg-green-400 p-2 ml-2 border-2 rounded text-green-900 border-green hover:bg-white'>
+											<FaCheck />
 										</button>
 									) : (
-										<button className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'>
-											Not Done
+										<button className='flex-no-shrink bg-red-400 p-2 ml-2 border-2 rounded text-red-900 border-red hover:bg-white'>
+											<FaCheck />
 										</button>
 									)}
 								</div>
-								{/* {todo.completed === true ? (
-									<button className='flex-no-shrink p-2 ml-4 mr-2 border-2 rounded text-green-900  hover:text-white border-green hover:bg-green-400'>
-										Done
-									</button>
-								) : (
-									<button className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'>
-										Not Done
-									</button>
-								)} */}
-								<button className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'>
+								<p className='w-1/2  text-gray-900'>
+									{todo.title}
+								</p>
+								<button
+									onClick={() => handleDelete(todo.id)}
+									className='flex-no-shrink p-2 ml-2 border-2 rounded text-red-900 border-red hover:text-white hover:bg-red-400'
+								>
 									<AiFillDelete />
+								</button>
+
+								<button
+									onClick={() => handleDelete(todo.id)}
+									className='flex-no-shrink p-2 ml-2 border-2 rounded text-gray-900 border-gray hover:text-white hover:bg-gray-400'
+								>
+									<AiFillEdit />
 								</button>
 							</div>
 						</div>
